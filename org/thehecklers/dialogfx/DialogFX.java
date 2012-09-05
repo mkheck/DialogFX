@@ -151,6 +151,8 @@ public final class DialogFX extends Stage {
     
     private void loadIconFromResource(String fileName) {
         Image imgIcon = new Image(getClass().getResourceAsStream(DIALOG_ICON_PATH + fileName));
+        icon.setPreserveRatio(true);
+        icon.setFitHeight(48);
         icon.setImage(imgIcon);
     }
    
@@ -191,6 +193,9 @@ public final class DialogFX extends Stage {
      */
     public void setType(Type typeToSet) {
         type = typeToSet;
+    }
+    
+    private void populateStage() {
         String iconFile;
         
         switch ( type ) {
@@ -238,6 +243,7 @@ public final class DialogFX extends Stage {
      * @return The index of the button pressed.
      */
     public int showDialog() {
+        populateStage();
         if ( type == Type.QUESTION ) {
             if ( buttonCount == 0 ) {
                 addYesNoButtons();
