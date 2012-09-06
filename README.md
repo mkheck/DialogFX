@@ -1,6 +1,10 @@
 DialogFX
 ========
 
+PLEASE NOTE: DialogFX is now incorporated into the JFXtras project. Please visit us there on GitHub for the latest
+code and JavaFX goodies!
+
+
 DialogFX adds fully-baked and flexible dialog box functionality to JavaFX 2.2+.
 
 Thanks for checking it out! JavaFX 2.x offers amazing capabilities, but rolling-your-own dialogs seems a bit tedious. 
