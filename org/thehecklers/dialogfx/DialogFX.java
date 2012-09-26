@@ -37,8 +37,6 @@ public final class DialogFX extends Stage {
      */
     public enum Type { ACCEPT, ERROR, INFO, QUESTION };
     
-    private static final String DIALOG_ICON_PATH = "/org/thehecklers/dialogfx/";
-    
     private Type type;
     private Stage stage;
     private Scene scene;
@@ -49,6 +47,7 @@ public final class DialogFX extends Stage {
     private List<String> buttonLabels;
     private int buttonCount = 0;
     private int buttonSelected = 0;
+    private List<String> stylesheets = new ArrayList<>();
     
     /**
      * Default constructor for a DialogFX dialog box. Creates an INFO box.
@@ -141,6 +140,24 @@ public final class DialogFX extends Stage {
         addButtons(labels);
     }
     
+    /**
+     * Allows developer to add stylesheet for DialogFX dialog, supplementing or 
+     * overriding existing styling.
+     * 
+     * @param stylesheet String variable containing the name or path/name 
+     * of the stylesheet to add to the dialog's scene and contained controls.
+     */
+    public void addStylesheet(String stylesheet) {
+        //stylesheet = stylesheet;
+        try {
+            String newStyle  = this.getClass().getResource(stylesheet).toExternalForm();
+            stylesheets.add(newStyle);
+        } catch (Exception ex) {
+            System.err.println("Unable to find specified stylesheet: " + stylesheet);
+            System.err.println("Error message: " + ex.getMessage());
+        }
+    }
+    
     private void initDialog(Type t) {
         stage = new Stage();
         
@@ -150,7 +167,7 @@ public final class DialogFX extends Stage {
     }
     
     private void loadIconFromResource(String fileName) {
-        Image imgIcon = new Image(getClass().getResourceAsStream(DIALOG_ICON_PATH + fileName));
+        Image imgIcon = new Image(getClass().getResourceAsStream(fileName));
         icon.setPreserveRatio(true);
         icon.setFitHeight(48);
         icon.setImage(imgIcon);
@@ -234,6 +251,14 @@ public final class DialogFX extends Stage {
         pane.setCenter(message);
         
         scene = new Scene(pane);
+        for (int i=0;i<stylesheets.size();i++) {
+            try {
+                scene.getStylesheets().add(stylesheets.get(i));
+            } catch (Exception ex) {
+                System.err.println("Unable to load specified stylesheet: " + stylesheets.get(i));
+                System.err.println(ex.getMessage());
+            }
+        }
         stage.setScene(scene);
     }
     
