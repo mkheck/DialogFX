@@ -45,8 +45,9 @@ public final class DialogFX extends Stage {
     private Label message = new Label();
     private HBox buttonBox = new HBox(10);
     private List<String> buttonLabels;
+    private int buttonCancel = -1;
     private int buttonCount = 0;
-    private int buttonSelected = 0;
+    private int buttonSelected = -1;
     private List<String> stylesheets = new ArrayList<>();
     
     /**
@@ -100,6 +101,8 @@ public final class DialogFX extends Stage {
             btn.setDefaultButton(i==defaultBtn);
             btn.setCancelButton(i==cancelBtn);
             
+            buttonCancel = cancelBtn;
+            
             btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
                 public void handle(ActionEvent evt) {
@@ -113,7 +116,7 @@ public final class DialogFX extends Stage {
         buttonBox.setAlignment(Pos.CENTER);
         
         BorderPane.setAlignment(buttonBox, Pos.CENTER);
-        BorderPane.setMargin(buttonBox, new Insets(2,2,2,2));
+        BorderPane.setMargin(buttonBox, new Insets(5,5,5,5));
         pane.setBottom(buttonBox);
         buttonCount = labels.size();  
     }
@@ -243,11 +246,11 @@ public final class DialogFX extends Stage {
         }
         
         BorderPane.setAlignment(icon, Pos.CENTER);
-        BorderPane.setMargin(icon, new Insets(2,2,2,2));
+        BorderPane.setMargin(icon, new Insets(5,5,5,5));
         pane.setLeft(icon);
         
         BorderPane.setAlignment(message, Pos.CENTER);
-        BorderPane.setMargin(message, new Insets(2,2,2,2));
+        BorderPane.setMargin(message, new Insets(5,5,5,5));
         pane.setCenter(message);
         
         scene = new Scene(pane);
@@ -279,6 +282,6 @@ public final class DialogFX extends Stage {
         stage.sizeToScene();
         stage.centerOnScreen();
         stage.showAndWait();
-        return buttonSelected;
+        return ( buttonSelected == -1 ? buttonCancel : buttonSelected );
     }
 }
