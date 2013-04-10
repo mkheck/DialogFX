@@ -1,6 +1,13 @@
 DialogFX
 ========
 
+UPDATE: DialogFX has been superseded by MonologFX, also incorporated into the JFXtras project (Labs). Please check it 
+out, as MonologFX offers several new features that DialogFX didn't have: greater button flexibility, internationalization 
+(i18n), and much more - all with a simple, streamlined interface. I'll be updating DialogFX on occasion, but only to 
+"backport" a few key things from MonologFX. Thanks for your interest!
+
+*****
+
 PLEASE NOTE: DialogFX is now incorporated into the JFXtras project. Please visit us there on GitHub for the latest
 code and JavaFX goodies!
 
@@ -23,4 +30,4 @@ Looking forward to ideas, discussions, etc. Share to learn!
 All the best, 
 Mark Heckler 
 mark.heckler@gmail.com 
-@HecklerMark
+@MkHeck
