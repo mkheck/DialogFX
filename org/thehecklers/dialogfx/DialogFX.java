@@ -277,7 +277,7 @@ public final class DialogFX extends Stage {
                 iconFile = "dialog-question.png";
                 break;
             default:
-                iconFile = "Dialog-info.jpg";
+                iconFile = "dialog-info.png";
                 break;
         }
         
