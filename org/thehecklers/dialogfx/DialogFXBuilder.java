@@ -53,7 +53,7 @@ public class DialogFXBuilder <B extends DialogFXBuilder<B>> extends ControlBuild
     }
 
     public final DialogFXBuilder message(final String MESSAGE) {
-        properties.put("message", new SimpleStringProperty(MESSAGE));
+        properties.put("setMessage", new SimpleStringProperty(MESSAGE));
         return this;
     }
 
@@ -85,7 +85,7 @@ public class DialogFXBuilder <B extends DialogFXBuilder<B>> extends ControlBuild
                                    ((IntegerProperty) properties.get("buttonsCancelButton")).get());
             } else if ("type".equals(key)) {
                 CONTROL.setType(((ObjectProperty<DialogFX.Type>) properties.get(key)).get());
-            } else if ("message".equals(key)) {
+            } else if ("setMessage".equals(key)) {
                 CONTROL.setMessage(((StringProperty) properties.get(key)).get());
             } else if ("modal".equals(key)) {
                 CONTROL.setModal(((BooleanProperty) properties.get(key)).get());
