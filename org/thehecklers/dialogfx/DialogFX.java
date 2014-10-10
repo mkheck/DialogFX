@@ -270,11 +270,11 @@ public final class DialogFX extends Stage {
                 addOKButton();
                 break;
             case INFO:
-                iconFile = "Dialog-info.jpg";
+                iconFile = "dialog-info.png";
                 addOKButton();
                 break;
             case QUESTION:
-                iconFile = "Dialog-question.jpg";
+                iconFile = "dialog-question.png";
                 break;
             default:
                 iconFile = "Dialog-info.jpg";
