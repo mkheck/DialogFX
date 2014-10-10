@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.thehecklers.dialogfx.DialogFXController">
+   <children>
+      <VBox prefHeight="97.0" prefWidth="300.0">
+         <children>
+            <HBox prefHeight="75.0" prefWidth="300.0" style="-fx-background-color: d9d4d4;">
+               <children>
+                  <BorderPane prefHeight="75.0" prefWidth="85.0">
+                     <center>
+                        <ImageView fx:id="icon" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+                     </center>
+                     <opaqueInsets>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </opaqueInsets>
+                     <effect>
+                        <Reflection fraction="0.61" topOffset="-5.0" topOpacity="0.38" />
+                     </effect>
+                  </BorderPane>
+                  <Label fx:id="message" prefHeight="123.0" prefWidth="202.0" text="Message" />
+               </children>
+            </HBox>
+            <HBox prefHeight="50.0" prefWidth="300.0">
+               <children>
+                  <VBox prefHeight="42.0" prefWidth="301.0">
+                     <children>
+                        <Separator prefHeight="3.0" prefWidth="307.0" style="-fx-background-color: 00000;" />
+                        <HBox id="buttonHBox" fx:id="buttonHBox" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                           <VBox.margin>
+                              <Insets right="6.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</Pane>
