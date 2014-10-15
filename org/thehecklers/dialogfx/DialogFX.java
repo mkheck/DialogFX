@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -47,11 +49,14 @@ public final class DialogFX extends Stage {
     public enum Type { ACCEPT, ERROR, WARNING, INFO, QUESTION };
 
     private Type type;
-    private AnchorPane popUp;
+    private Pane popUp;
     private Stage stage;
     private Scene scene;
 
-    private DialogFXController controller = new DialogFXController();
+    // FXMLLoader to load the popup GUI.
+    private FXMLLoader fxmlLoader = new FXMLLoader();
+    // Instance of the second controller.
+    private DialogFXController controller;
 
     private int buttonCancel = -1;
     private int buttonCount = 0;
@@ -70,10 +75,6 @@ public final class DialogFX extends Stage {
             System.err.println("Unable to initialize the DialogFX");
             System.err.println("Error: " + ex.getMessage());
         }
-
-        controller.setMessage(new Label(""));
-        controller.setIcon(new ImageView());
-        controller.setButtonHBox(new HBox(10));
     }
     
     /**
@@ -90,10 +91,6 @@ public final class DialogFX extends Stage {
             System.err.println("Unable to initialize the DialogFX");
             System.err.println("Error: " + ex.getMessage());
         }
-
-        controller.setMessage(new Label(""));
-        controller.setIcon(new ImageView());
-        controller.setButtonHBox(new HBox(10));
     }
     
     /**
@@ -198,15 +195,20 @@ public final class DialogFX extends Stage {
     private void initDialog(Type t) throws IOException {
         stage = new Stage();
 
-        popUp = FXMLLoader.load(getClass().getResource("DialogFX.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("DialogFX.fxml"));
 
-
+        popUp = fxmlLoader.load();
+        controller = fxmlLoader.getController();
 
         setType(t);
         stage.initModality(Modality.APPLICATION_MODAL);
         /*stage.setMaxWidth(Screen.getPrimary().getVisualBounds().getWidth() / 2);*/
     }
 
+    /**
+     * Load an icon for the pop up.
+     * @param fileName a string containing the file name of the icon.
+     */
     private void loadIconFromResource(String fileName) {
         Image imgIcon = new Image(getClass().getResourceAsStream(fileName));
         controller.getIcon().setPreserveRatio(true);
