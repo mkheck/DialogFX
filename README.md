@@ -27,7 +27,10 @@ That's the beauty of GitHub!
 
 Looking forward to ideas, discussions, etc. Share to learn!
 
-All the best, 
-Mark Heckler 
-mark.heckler@gmail.com 
-@MkHeck
+__Contributors__
+ 
+ * Rafael Campos Nunes <rafaelnunes737@hotmail.com> (@rafaellnunees)
+ * Mark Heckler <mark.heckler@gmail.com> (@MkHeck)
+ * Gerrit Grunwald (also known as HanSolo)
+  
+All te best for you guys!
