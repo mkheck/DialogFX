@@ -145,11 +145,6 @@ public final class DialogFX extends Stage {
             });
             controller.getButtonHBox().getChildren().add(btn);
         }
-
-        /*BorderPane.setAlignment(buttonBox, Pos.CENTER);
-        BorderPane.setMargin(buttonBox, new Insets(10,5,10,5));
-        pane.setBottom(buttonBox);
-        buttonCount = labels.size();  */
     }
     
     private void addOKButton() {
@@ -202,7 +197,6 @@ public final class DialogFX extends Stage {
 
         setType(t);
         stage.initModality(Modality.APPLICATION_MODAL);
-        /*stage.setMaxWidth(Screen.getPrimary().getVisualBounds().getWidth() / 2);*/
     }
 
     /**
@@ -289,24 +283,15 @@ public final class DialogFX extends Stage {
             System.err.println("Exception trying to load icon file: " + ex.getMessage());
         }
 
-        //TODO: Clean this.
-        /*BorderPane.setAlignment(icon, Pos.CENTER);
-        BorderPane.setMargin(icon, new Insets(15, 5, 5, 5));
-        pane.setLeft(icon);
-        
-        BorderPane.setAlignment(setMessage, Pos.CENTER);
-        BorderPane.setMargin(setMessage, new Insets(5,5,5,5));
-        pane.setCenter(setMessage);*/
 
-        // Disabled this feature by now.
-        /*for (int i=0;i<stylesheets.size();i++) {
+        for (int i=0;i<stylesheets.size();i++) {
             try {
                 scene.getStylesheets().add(stylesheets.get(i));
             } catch (Exception ex) {
                 System.err.println("Unable to load specified stylesheet: " + stylesheets.get(i));
                 System.err.println(ex.getMessage());
             }
-        }*/
+        }
 
         scene = new Scene(popUp, 300, 100);
         stage.setScene(scene);
