@@ -33,4 +33,4 @@ __Contributors__
  * Mark Heckler <mark.heckler@gmail.com> (@MkHeck)
  * Gerrit Grunwald (also known as HanSolo)
   
-All te best for you guys!
+All the best for you guys!
