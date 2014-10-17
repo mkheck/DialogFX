@@ -22,11 +22,14 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author Mark Heckler (mark.heckler@gmail.com, @HecklerMark)
- *
- * Updated by Rafael Nunes (rafaelnunes737@hotmail.com, @rafaellnunees)
+ * @author  Mark Heckler (mark.heckler@gmail.com, @HecklerMark),
+ *          Rafael Nunes (rafaelnunes737@hotmail.com, @rafaellnunees)
  */
 public final class DialogFX extends Stage {
+
+    private final static String MAJOR_VERSION = "1";
+    private final static String MINOR_VERSION = "2";
+
     /**
      * Type of dialog box is one of the following, each with a distinct icon:
      * <p>
@@ -62,9 +65,14 @@ public final class DialogFX extends Stage {
     private int buttonCount = 0;
     private int buttonSelected = -1;
     private List<String> stylesheets = new ArrayList<>();
+
+    /* Getters */
+
+    public final static String getDialogFXVersion() { return MAJOR_VERSION + "." + MINOR_VERSION; }
     
     /**
-     * Default constructor for a DialogFX dialog box. Creates an INFO box.
+     * Default constructor for a DialogFX dialog box. Creates an INFO box
+     * by default.
      * 
      * @see Type
      */
@@ -94,6 +102,7 @@ public final class DialogFX extends Stage {
     }
     
     /**
+     * TODO: Only this method should be used to add buttons on the dialog.
      * Public method used to add custom buttons to a DialogFX dialog.
      * 
      * @param labels A list of String variables. While technically unlimited,
@@ -144,16 +153,17 @@ public final class DialogFX extends Stage {
                 }
             });
             controller.getButtonHBox().getChildren().add(btn);
+            controller.getButtonHBox().setSpacing(5);
         }
     }
-    
+
+    //TODO: This method should be removed. Why? Redundancy
     private void addOKButton() {
-        List<String> labels = new ArrayList<>(1);
-        labels.add("OK");
-        
-        addButtons(labels, 0, 0);
+        // Yes, double brace initialization.
+        addButtons(new ArrayList<String>(1) {{ add("Ok"); }}, 0, 0);
     }
-    
+
+    //TODO: This method should be removed. Why? Redundancy
     private void addYesNoButtons() {
         /*
          * No default or cancel buttons designated, by design.
@@ -162,11 +172,7 @@ public final class DialogFX extends Stage {
          * assign default/cancel Yes/No buttons using the full addButtons()
          * method if required. You have the power!
          */
-        List<String> labels = new ArrayList<>(2);
-        labels.add("Yes");
-        labels.add("No");
-        
-        addButtons(labels);
+        addButtons(new ArrayList<String>(2) {{ add("Yes"); add("No"); }});
     }
     
     /**
@@ -177,7 +183,6 @@ public final class DialogFX extends Stage {
      * of the stylesheet to add to the dialog's scene and contained controls.
      */
     public void addStylesheet(String stylesheet) {
-        //stylesheet = stylesheet;
         try {
             String newStyle  = this.getClass().getResource(stylesheet).toExternalForm();
             stylesheets.add(newStyle);
