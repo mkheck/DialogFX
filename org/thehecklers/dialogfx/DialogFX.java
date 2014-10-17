@@ -2,6 +2,7 @@ package org.thehecklers.dialogfx;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -28,7 +29,7 @@ import javafx.stage.Stage;
 public final class DialogFX extends Stage {
 
     private final static String MAJOR_VERSION = "1";
-    private final static String MINOR_VERSION = "2";
+    private final static String MINOR_VERSION = "3";
 
     /**
      * Type of dialog box is one of the following, each with a distinct icon:
@@ -156,24 +157,6 @@ public final class DialogFX extends Stage {
             controller.getButtonHBox().setSpacing(5);
         }
     }
-
-    //TODO: This method should be removed. Why? Redundancy
-    private void addOKButton() {
-        // Yes, double brace initialization.
-        addButtons(new ArrayList<String>(1) {{ add("Ok"); }}, 0, 0);
-    }
-
-    //TODO: This method should be removed. Why? Redundancy
-    private void addYesNoButtons() {
-        /*
-         * No default or cancel buttons designated, by design.
-         * Some cases would require the Yes button to be default & No to cancel,
-         * while others would require the opposite. You as the developer can 
-         * assign default/cancel Yes/No buttons using the full addButtons()
-         * method if required. You have the power!
-         */
-        addButtons(new ArrayList<String>(2) {{ add("Yes"); add("No"); }});
-    }
     
     /**
      * Allows developer to add stylesheet for DialogFX dialog, supplementing or 
@@ -260,25 +243,27 @@ public final class DialogFX extends Stage {
         switch ( type ) {
             case ACCEPT:
                 iconFile = "dialog-accept.png";
-                addOKButton();
+                addButtons(Arrays.asList("Ok"), 0, 0);
                 break;
             case ERROR:
                 iconFile = "dialog-error.png";
-                addOKButton();
+                addButtons(Arrays.asList("Ok"), 0, 0);
                 break;
             case WARNING:
                 iconFile = "dialog-warning.png";
-                addOKButton();
+                addButtons(Arrays.asList("Ok"), 0, 0);
                 break;
             case INFO:
                 iconFile = "dialog-info.png";
-                addOKButton();
+                addButtons(Arrays.asList("Ok"), 0, 0);
                 break;
             case QUESTION:
                 iconFile = "dialog-question.png";
+                addButtons(Arrays.asList("Yes", "No"), 0, 0);
                 break;
             default:
                 iconFile = "dialog-info.png";
+                addButtons(Arrays.asList("Ok"), 0, 0);
                 break;
         }
         
@@ -309,11 +294,6 @@ public final class DialogFX extends Stage {
      */
     public int showDialog() {
         populateStage();
-        if ( type == Type.QUESTION ) {
-            if ( buttonCount == 0 ) {
-                addYesNoButtons();
-            }
-        }
         
         stage.setResizable(false);
         stage.sizeToScene();
