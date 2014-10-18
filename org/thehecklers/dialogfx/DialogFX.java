@@ -26,7 +26,7 @@ import javafx.stage.Stage;
  * @author  Mark Heckler (mark.heckler@gmail.com, @HecklerMark),
  *          Rafael Nunes (rafaelnunes737@hotmail.com, @rafaellnunees)
  */
-public final class DialogFX extends Stage {
+public final class DialogFX {
 
     private final static String MAJOR_VERSION = "1";
     private final static String MINOR_VERSION = "3";
@@ -274,7 +274,7 @@ public final class DialogFX extends Stage {
         }
 
 
-        for (int i=0;i<stylesheets.size();i++) {
+        for (int i = 0; i < stylesheets.size(); i++) {
             try {
                 scene.getStylesheets().add(stylesheets.get(i));
             } catch (Exception ex) {
