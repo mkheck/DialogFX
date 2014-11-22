@@ -1,63 +1,89 @@
 package org.thehecklers.dialogfx;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
  *
- * @author Mark Heckler (mark.heckler@gmail.com, @HecklerMark)
+ * @author  Mark Heckler (mark.heckler@gmail.com, @HecklerMark),
+ *          Rafael Nunes (rafaelnunes737@hotmail.com, @rafaellnunees)
  */
-public final class DialogFX extends Stage {
+public final class DialogFX {
+
+    private final static String MAJOR_VERSION = "1";
+    private final static String MINOR_VERSION = "3";
+
     /**
      * Type of dialog box is one of the following, each with a distinct icon:
      * <p>
-     * ACCEPT = check mark icon
+     *      ACCEPT = check mark icon
+     * </p>
      * <p>
-     * ERROR = red 'X' icon
+     *      ERROR = red 'X' icon
+     * </p>
      * <p>
-     * INFO = blue 'i' (information) icon
+     *      WARNING = yellow 'triangle' (warning) icon
+     * </p>
      * <p>
-     * QUESTION = blue question mark icon
+     *      INFO = blue 'i' (information) icon
+     * </p>
      * <p>
+     *      QUESTION = blue question mark icon
+     * </p>
      * If no type is specified in the constructor, the default is INFO.
      */
-    public enum Type { ACCEPT, ERROR, INFO, QUESTION };
-    
+    public enum Type { ACCEPT, ERROR, WARNING, INFO, QUESTION };
+
     private Type type;
+    private Pane popUp;
     private Stage stage;
     private Scene scene;
-    private BorderPane pane = new BorderPane();
-    private ImageView icon = new ImageView();
-    private Label message = new Label();
-    private HBox buttonBox = new HBox(10);
-    private List<String> buttonLabels;
+
+    // FXMLLoader to load the popup GUI.
+    private FXMLLoader fxmlLoader = new FXMLLoader();
+    // Instance of the second controller.
+    private DialogFXController controller;
+
     private int buttonCancel = -1;
     private int buttonCount = 0;
     private int buttonSelected = -1;
     private List<String> stylesheets = new ArrayList<>();
+
+    /* Getters */
+
+    public final static String getDialogFXVersion() { return MAJOR_VERSION + "." + MINOR_VERSION; }
     
     /**
-     * Default constructor for a DialogFX dialog box. Creates an INFO box.
+     * Default constructor for a DialogFX dialog box. Creates an INFO box
+     * by default.
      * 
      * @see Type
      */
     public DialogFX() {
-        initDialog(Type.INFO);
+        try {
+            initDialog(Type.INFO);
+        }catch(IOException ex) {
+            System.err.println("Unable to initialize the DialogFX");
+            System.err.println("Error: " + ex.getMessage());
+        }
     }
     
     /**
@@ -68,10 +94,16 @@ public final class DialogFX extends Stage {
      * @see Type
      */
     public DialogFX(Type t) {
-        initDialog(t);
+        try {
+            initDialog(t);
+        }catch(IOException ex) {
+            System.err.println("Unable to initialize the DialogFX");
+            System.err.println("Error: " + ex.getMessage());
+        }
     }
     
     /**
+     * TODO: Only this method should be used to add buttons on the dialog.
      * Public method used to add custom buttons to a DialogFX dialog.
      * 
      * @param labels A list of String variables. While technically unlimited,
@@ -80,6 +112,7 @@ public final class DialogFX extends Stage {
     public void addButtons(List<String> labels) {
         addButtons(labels, -1, -1);
     }
+
     
     /**
      * Public method used to add custom buttons to a DialogFX dialog.
@@ -94,9 +127,9 @@ public final class DialogFX extends Stage {
      * designate as the cancel button.
      */
     public void addButtons(List<String> labels, int defaultBtn, int cancelBtn) {
-        buttonLabels = labels;
+        List<String> buttonLabels = labels;
         
-        for (int i=0; i<labels.size(); i++) {
+        for (int i=0; i < labels.size(); i++) {
             final Button btn = new Button(labels.get(i));
             
             btn.setDefaultButton(i==defaultBtn);
@@ -120,37 +153,9 @@ public final class DialogFX extends Stage {
                     stage.close();
                 }
             });
-            buttonBox.getChildren().add(btn);
+            controller.getButtonHBox().getChildren().add(btn);
+            controller.getButtonHBox().setSpacing(5);
         }
-        
-        buttonBox.setAlignment(Pos.CENTER);
-        
-        BorderPane.setAlignment(buttonBox, Pos.CENTER);
-        BorderPane.setMargin(buttonBox, new Insets(5,5,5,5));
-        pane.setBottom(buttonBox);
-        buttonCount = labels.size();  
-    }
-    
-    private void addOKButton() {
-        List<String> labels = new ArrayList<>(1);
-        labels.add("OK");
-        
-        addButtons(labels, 0, 0);
-    }
-    
-    private void addYesNoButtons() {
-        /*
-         * No default or cancel buttons designated, by design.
-         * Some cases would require the Yes button to be default & No to cancel,
-         * while others would require the opposite. You as the developer can 
-         * assign default/cancel Yes/No buttons using the full addButtons()
-         * method if required. You have the power!
-         */
-        List<String> labels = new ArrayList<>(2);
-        labels.add("Yes");
-        labels.add("No");
-        
-        addButtons(labels);
     }
     
     /**
@@ -161,29 +166,36 @@ public final class DialogFX extends Stage {
      * of the stylesheet to add to the dialog's scene and contained controls.
      */
     public void addStylesheet(String stylesheet) {
-        //stylesheet = stylesheet;
         try {
             String newStyle  = this.getClass().getResource(stylesheet).toExternalForm();
             stylesheets.add(newStyle);
         } catch (Exception ex) {
             System.err.println("Unable to find specified stylesheet: " + stylesheet);
-            System.err.println("Error message: " + ex.getMessage());
+            System.err.println("Error setMessage: " + ex.getMessage());
         }
     }
     
-    private void initDialog(Type t) {
+    private void initDialog(Type t) throws IOException {
         stage = new Stage();
-        
+
+        fxmlLoader.setLocation(getClass().getResource("DialogFX.fxml"));
+
+        popUp = fxmlLoader.load();
+        controller = fxmlLoader.getController();
+
         setType(t);
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setMaxWidth(Screen.getPrimary().getVisualBounds().getWidth() / 2);
     }
-    
+
+    /**
+     * Load an icon for the pop up.
+     * @param fileName a string containing the file name of the icon.
+     */
     private void loadIconFromResource(String fileName) {
         Image imgIcon = new Image(getClass().getResourceAsStream(fileName));
-        icon.setPreserveRatio(true);
-        icon.setFitHeight(48);
-        icon.setImage(imgIcon);
+        controller.getIcon().setPreserveRatio(true);
+        controller.getIcon().setFitHeight(32);
+        controller.getIcon().setImage(imgIcon);
     }
    
     /**
@@ -193,8 +205,8 @@ public final class DialogFX extends Stage {
      * @param msg String variable containing the text to display.
      */
     public void setMessage(String msg) {
-        message.setText(msg);
-        message.setWrapText(true);
+        controller.getMessage().setText(msg);
+        controller.getMessage().setWrapText(true);
     }
    
     /**
@@ -230,22 +242,28 @@ public final class DialogFX extends Stage {
         
         switch ( type ) {
             case ACCEPT:
-                iconFile = "Dialog-accept.jpg";
-                addOKButton();
+                iconFile = "dialog-accept.png";
+                addButtons(Arrays.asList("Ok"), 0, 0);
                 break;
             case ERROR:
-                iconFile = "Dialog-error.jpg";
-                addOKButton();
+                iconFile = "dialog-error.png";
+                addButtons(Arrays.asList("Ok"), 0, 0);
+                break;
+            case WARNING:
+                iconFile = "dialog-warning.png";
+                addButtons(Arrays.asList("Ok"), 0, 0);
                 break;
             case INFO:
-                iconFile = "Dialog-info.jpg";
-                addOKButton();
+                iconFile = "dialog-info.png";
+                addButtons(Arrays.asList("Ok"), 0, 0);
                 break;
             case QUESTION:
-                iconFile = "Dialog-question.jpg";
+                iconFile = "dialog-question.png";
+                addButtons(Arrays.asList("Yes", "No"), 0, 0);
                 break;
             default:
-                iconFile = "Dialog-info.jpg";
+                iconFile = "dialog-info.png";
+                addButtons(Arrays.asList("Ok"), 0, 0);
                 break;
         }
         
@@ -254,17 +272,9 @@ public final class DialogFX extends Stage {
         } catch (Exception ex) {
             System.err.println("Exception trying to load icon file: " + ex.getMessage());
         }
-        
-        BorderPane.setAlignment(icon, Pos.CENTER);
-        BorderPane.setMargin(icon, new Insets(5,5,5,5));
-        pane.setLeft(icon);
-        
-        BorderPane.setAlignment(message, Pos.CENTER);
-        BorderPane.setMargin(message, new Insets(5,5,5,5));
-        pane.setCenter(message);
-        
-        scene = new Scene(pane);
-        for (int i=0;i<stylesheets.size();i++) {
+
+
+        for (int i = 0; i < stylesheets.size(); i++) {
             try {
                 scene.getStylesheets().add(stylesheets.get(i));
             } catch (Exception ex) {
@@ -272,6 +282,8 @@ public final class DialogFX extends Stage {
                 System.err.println(ex.getMessage());
             }
         }
+
+        scene = new Scene(popUp, 300, 100);
         stage.setScene(scene);
     }
     
@@ -282,11 +294,6 @@ public final class DialogFX extends Stage {
      */
     public int showDialog() {
         populateStage();
-        if ( type == Type.QUESTION ) {
-            if ( buttonCount == 0 ) {
-                addYesNoButtons();
-            }
-        }
         
         stage.setResizable(false);
         stage.sizeToScene();
