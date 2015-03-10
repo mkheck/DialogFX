@@ -1,6 +1,6 @@
 /**
  * <p>
- *
+ *  Sample class to demonstrate how to use the DialogFX.
  * </p>
  * <p>
  * File created on 10/03/15.
