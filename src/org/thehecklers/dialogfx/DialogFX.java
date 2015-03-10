@@ -225,7 +225,7 @@ public final class DialogFX {
         
         switch ( type ) {
             case ACCEPT:
-                iconFile = "dialog-accept.png";
+                iconFile = "dialog-ok.png";
                 addButtons(Arrays.asList("Ok"), 0, 0);
                 break;
             case ERROR:
