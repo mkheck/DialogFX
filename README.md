@@ -10,7 +10,7 @@ DialogFX adds fully-baked and flexible dialog box functionality to JavaFX 2.2+!
 
 Dive in the [code](https://github.com/rafaelcn/DialogFX/blob/master/examples/Main.java) to see how _simple_ it is!
 
-__What does it look like?__
+__What does it looks like?__
 
 ![DialogFX application example](sample.png)
 
