@@ -1,25 +1,20 @@
 package org.thehecklers.dialogfx;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -50,7 +45,7 @@ public final class DialogFX {
      * </p>
      * If no type is specified in the constructor, the default is INFO.
      */
-    public enum Type { ACCEPT, ERROR, WARNING, INFO, QUESTION };
+    public enum Type { ACCEPT, ERROR, WARNING, INFO, QUESTION }
 
     private Type type;
     private Pane popUp;
@@ -63,13 +58,10 @@ public final class DialogFX {
     private DialogFXController controller;
 
     private int buttonCancel = -1;
-    private int buttonCount = 0;
     private int buttonSelected = -1;
     private List<String> stylesheets = new ArrayList<>();
 
-    /* Getters */
-
-    public final static String getDialogFXVersion() { return MAJOR_VERSION + "." + MINOR_VERSION; }
+    public static String version() { return MAJOR_VERSION + "." + MINOR_VERSION; }
     
     /**
      * Default constructor for a DialogFX dialog box. Creates an INFO box
@@ -80,7 +72,7 @@ public final class DialogFX {
     public DialogFX() {
         try {
             initDialog(Type.INFO);
-        }catch(IOException ex) {
+        } catch(IOException ex) {
             System.err.println("Unable to initialize the DialogFX");
             System.err.println("Error: " + ex.getMessage());
         }
@@ -96,7 +88,7 @@ public final class DialogFX {
     public DialogFX(Type t) {
         try {
             initDialog(t);
-        }catch(IOException ex) {
+        } catch(IOException ex) {
             System.err.println("Unable to initialize the DialogFX");
             System.err.println("Error: " + ex.getMessage());
         }
@@ -121,39 +113,30 @@ public final class DialogFX {
      * 
      * @param labels A list of String variables. While technically unlimited,
      * usability makes the practical limit around three.
-     * @param defaultBtn Position within the list of labels of the button to 
+     * @param defaultButton Position within the list of labels of the button to
      * designate as the default button.
-     * @param cancelBtn Position within the list of labels of the button to 
+     * @param cancelButton Position within the list of labels of the button to
      * designate as the cancel button.
      */
-    public void addButtons(List<String> labels, int defaultBtn, int cancelBtn) {
-        List<String> buttonLabels = labels;
-        
+    public void addButtons(List<String> labels, int defaultButton, int cancelButton) {
         for (int i=0; i < labels.size(); i++) {
-            final Button btn = new Button(labels.get(i));
-            
-            btn.setDefaultButton(i==defaultBtn);
-            btn.setCancelButton(i==cancelBtn);
+            final Button button = new Button(labels.get(i));
 
-            if ( i == defaultBtn ) {
-                Platform.runLater( new Runnable() {
-                    @Override
-                    public void run() {
-                        btn.requestFocus();
-                    }
-                } );
-            }
+            button.setDefaultButton(i == defaultButton);
+            button.setCancelButton(i == cancelButton);
+
+            if ( i == defaultButton ) { Platform.runLater(() -> button.requestFocus()); }
             
-            buttonCancel = cancelBtn;
-            
-            btn.setOnAction(new EventHandler<ActionEvent>() {
+            buttonCancel = cancelButton;
+
+            button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
                 public void handle(ActionEvent evt) {
-                    buttonSelected = buttonLabels.indexOf(((Button) evt.getSource()).getText());
+                    buttonSelected = labels.indexOf(((Button) evt.getSource()).getText());
                     stage.close();
                 }
             });
-            controller.getButtonHBox().getChildren().add(btn);
+            controller.getButtonHBox().getChildren().add(button);
             controller.getButtonHBox().setSpacing(5);
         }
     }

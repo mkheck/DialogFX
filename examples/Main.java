@@ -15,8 +15,6 @@ import org.thehecklers.dialogfx.DialogFX;
 
 public class Main extends Application {
 
-
-
     public static void main(String[] args)
     {
         launch(args);
@@ -30,6 +28,17 @@ public class Main extends Application {
         dialog.setMessage("Does this dialog works?");
         int option = dialog.showDialog();
 
-        System.out.println(option);
+        if(option == 0) {
+            DialogFX dialog1 = new DialogFX(DialogFX.Type.INFO);
+            dialog1.setTitleText("Info");
+            dialog1.setMessage("It seems that you've pressed yes.");
+            dialog1.showDialog();
+        }
+        else {
+            DialogFX dialog2 = new DialogFX(DialogFX.Type.WARNING);
+            dialog2.setTitleText("Warning");
+            dialog2.setMessage("WEEEEEIRDO, you've pressed no :c");
+            dialog2.showDialog();
+        }
     }
 }

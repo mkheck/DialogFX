@@ -26,8 +26,6 @@ public class DialogFXController implements Initializable {
     public void initialize(URL location, ResourceBundle resources)
     {}
 
-    /*  Getters and Setters */
-
     public HBox getButtonHBox() {
         return buttonHBox;
     }

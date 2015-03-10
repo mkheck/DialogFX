@@ -1,18 +1,11 @@
 package org.thehecklers.dialogfx;
 
-import java.util.HashMap;
-import java.util.List;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.scene.control.ControlBuilder;
 import javafx.util.Builder;
+
+import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -25,7 +18,10 @@ import javafx.util.Builder;
  * Mods: HecklerMark
  * Date: 25.09.12
  * Desc: Added stylesheet capability. Guess I need to check out IDEA for this project now (sigh). :-)
+ *
+ * Modified on 10, March of 2015, by Rafael C. Nunes. It will be removed on the next version.
  */
+@Deprecated
 public class DialogFXBuilder <B extends DialogFXBuilder<B>> extends ControlBuilder<B> implements Builder<DialogFX> {
     private HashMap<String, Property> properties = new HashMap<>();
 
@@ -48,7 +44,7 @@ public class DialogFXBuilder <B extends DialogFXBuilder<B>> extends ControlBuild
     }
 
     public final DialogFXBuilder type(final DialogFX.Type TYPE) {
-        properties.put("type", new SimpleObjectProperty<DialogFX.Type>(TYPE));
+        properties.put("type", new SimpleObjectProperty<>(TYPE));
         return this;
     }
 
