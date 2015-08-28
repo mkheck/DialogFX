@@ -6,7 +6,7 @@ DialogFX Project
 _NOTE 1_: DialogFX is now incorporated into the JFXtras project. Please visit us there on GitHub for the latest
 code and JavaFX goodies!
 
-_NOTE 2_: Dialogs are fully supported by the Java 8u40, so there's no need to use this project.
+_NOTE 2_: Dialogs are fully supported by the *Java 8u40*, so *there's no need to use this project anymore*.
 
 DialogFX adds fully-baked and flexible dialog box functionality to JavaFX 2.2+!
 
